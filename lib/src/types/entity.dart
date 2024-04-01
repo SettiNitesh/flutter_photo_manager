@@ -2,6 +2,7 @@
 // Use of this source code is governed by an Apache license that can be found
 // in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data' as typed_data;
 
@@ -819,6 +820,57 @@ class AssetEntity {
 
   @override
   String toString() => 'AssetEntity(id: $id , type: $type)';
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'subtype': subtype,
+      'typeInt': typeInt,
+      'duration': duration,
+      'width': width,
+      'height': height,
+      '_latitude': _latitude,
+      '_longitude': _longitude,
+      'createDateSecond': createDateSecond,
+      'modifiedDateSecond': modifiedDateSecond,
+      'orientation': orientation,
+      'isFavorite': isFavorite,
+      'relativePath': relativePath,
+      'mimeType': mimeType,
+    };
+  }
+
+  factory AssetEntity.fromMap(Map<String, dynamic> map) {
+    return AssetEntity(
+      id: map['id'] as String,
+      title: map['title'] != null ? map['title'] as String : null,
+      subtype: map['subtype'] as int,
+      typeInt: map['typeInt'] as int,
+      duration: map['duration'] as int,
+      width: map['width'] as int,
+      height: map['height'] as int,
+      latitude: map['latitude'] != null ? map['latitude'] as double : null,
+      longitude: map['longitude'] != null ? map['longitude'] as double : null,
+      createDateSecond: map['createDateSecond'] != null
+          ? map['createDateSecond'] as int
+          : null,
+      modifiedDateSecond: map['modifiedDateSecond'] != null
+          ? map['modifiedDateSecond'] as int
+          : null,
+      orientation: map['orientation'] as int,
+      isFavorite: map['isFavorite'] as bool,
+      relativePath:
+          map['relativePath'] != null ? map['relativePath'] as String : null,
+      mimeType: map['mimeType'] != null ? map['mimeType'] as String : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory AssetEntity.fromJson(String source) {
+    return  AssetEntity.fromMap(json.decode(source) as Map<String, dynamic>);
+  }
 }
 
 /// Represents a geographical location as a latitude-longitude pair.
